@@ -1,0 +1,16 @@
+<%- include('layout', { title: title, body: `
+  <h2>Products</h2>
+  <ul>
+    ${products
+      .map(
+        (p) =>
+          `<li>${p.name} - $${p.price}
+           <form action="/products/add" method="POST" style="display:inline;">
+             <input type="hidden" name="id" value="${p.id}" />
+             <button type="submit">Add to Cart</button>
+           </form>
+          </li>`
+      )
+      .join("")}
+  </ul>
+` }) %>

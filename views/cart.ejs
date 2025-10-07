@@ -1,0 +1,7 @@
+﻿<%- include('layout', { title: title, body: `
+  <h2>Your Cart</h2>
+  <ul>
+    ${cart.map(p => `<li>${p.name} - $${p.price}</li>`).join("")}
+  </ul>
+  ${cart.length === 0 ? "<p>Cart is empty 🛒</p>" : ""}
+` }) %>
