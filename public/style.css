@@ -1,20 +1,23 @@
-.filter-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+﻿/* 🛍️ Product grid fix */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
 }
 
-    .filter-bar input, .filter-bar select {
-        padding: 5px 10px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-    }
+.card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
-    .filter-bar button {
-        background: #0078d4;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        padding: 5px 12px;
-        cursor: pointer;
+    .card img {
+        width: 100%;
+        max-width: 180px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 8px;
     }
