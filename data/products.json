@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Wireless Earbuds",
+    "price": 45,
+    "image": "/images/earbuds.jpg",
+    "category": "Electronics"
+  },
+  {
+    "id": 2,
+    "name": "Sneakers",
+    "price": 60,
+    "image": "/images/sneakers.jpg",
+    "category": "Fashion"
+  },
+  {
+    "id": 3,
+    "name": "Smart Watch",
+    "price": 120,
+    "image": "/images/watch.jpg",
+    "category": "Electronics"
+  },
+  {
+    "id": 4,
+    "name": "Backpack",
+    "price": 35,
+    "image": "/images/bag.jpg",
+    "category": "Accessories"
+  }
+]
