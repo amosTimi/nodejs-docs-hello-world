@@ -1,16 +1,29 @@
 ﻿<%- include('layout', { title: title, body: `
   <h2>Shop Products 🛍️</h2>
+
+  <form method="GET" action="/products" class="filter-bar">
+    <select name="category">
+      ${categories.map(c => `
+        <option value="${c}" ${selectedCategory === c ? 'selected' : ''}>${c}</option>
+      `).join('')}
+    </select>
+    <input type="text" name="search" placeholder="Search products..." value="${searchTerm}">
+    <button type="submit">🔍</button>
+  </form>
+
   <div class="grid">
-    ${products.map(p => `
-      <div class="card">
-        <img src="${p.image}" alt="${p.name}">
-        <h3>${p.name}</h3>
-        <p>$${p.price}</p>
-        <form action="/products/add" method="POST">
-          <input type="hidden" name="id" value="${p.id}" />
-          <button type="submit">Add to Cart</button>
-        </form>
-      </div>
-    `).join("")}
+    ${products.length === 0 ? `<p>No products found 😕</p>` :
+      products.map(p => `
+        <div class="card">
+          <img src="${p.image}" alt="${p.name}">
+          <h3>${p.name}</h3>
+          <p>$${p.price}</p>
+          <form action="/products/add" method="POST">
+            <input type="hidden" name="id" value="${p.id}" />
+            <button type="submit">Add to Cart</button>
+          </form>
+        </div>
+      `).join("")
+    }
   </div>
 ` }) %>
