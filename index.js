@@ -21,17 +21,22 @@ app.use(
 );
 app.set("view engine", "ejs");
 
-// Routes
-app.use("/", homeRoutes);
-app.use("/products", productRoutes);
-app.use("/cart", cartRoutes);
+// ✅ Serve React build first
+app.use(express.static(path.join(__dirname, "client/build")));
 
-app.listen(PORT, () => console.log(`🛍️ Server running on port ${PORT}`));
-
-
-// Serve React build files
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+// ✅ Serve React UI for root path
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
+
+// ✅ Backend API routes
+app.use("/api/products", productRoutes);
+app.use("/api/cart", cartRoutes);
+
+// ✅ Fallback to React for all other routes
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
+
+// ✅ Start the server
+app.listen(PORT, () => console.log(`🛍️ Server running on port ${PORT}`));
