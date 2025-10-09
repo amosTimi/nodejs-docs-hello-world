@@ -8,42 +8,82 @@
     <meta property="og:description" content="Shop premium electronics and accessories at Celline Mart" />
     <title>🛒 Celline Mart</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-50 text-gray-900">
-    <!-- Header -->
-    <header class="bg-white shadow-md">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-3xl font-extrabold text-blue-600 tracking-tight">
-                🛍️ Celline Mart
-            </h1>
-            <nav>
-                <ul class="flex gap-6 text-gray-700 font-medium">
-                    <li><a href="#" class="hover:text-blue-600">Home</a></li>
-                    <li><a href="#products" class="hover:text-blue-600">Shop</a></li>
-                    <li><a href="#contact" class="hover:text-blue-600">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<body class="bg-gray-100 text-gray-900">
 
-    <!-- Hero -->
-    <section class="text-center py-16 bg-gradient-to-r from-blue-50 to-blue-100">
-        <h2 class="text-4xl font-bold text-gray-800">Welcome to <span class="text-blue-600">Celline Mart</span></h2>
-        <p class="mt-3 text-lg text-gray-600">Your one-stop shop for premium electronics & accessories ⚡</p>
-        <button class="mt-6 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">Shop Now</button>
+    <!-- 🧭 Navbar -->
+    <nav class="fixed top-0 w-full bg-white shadow z-50">
+        <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
+            <h1 class="text-2xl font-bold text-blue-600">🛒 Celline Mart</h1>
+            <div class="space-x-6">
+                <a href="#hero" class="hover:text-blue-500">Home</a>
+                <a href="#products" class="hover:text-blue-500">Shop</a>
+                <a href="#contact" class="hover:text-blue-500">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 💫 Hero Section -->
+    <section id="hero" class="pt-24 bg-gradient-to-r from-blue-50 to-blue-100 text-center py-20 fade-in">
+        <h2 class="text-5xl font-extrabold text-blue-700">Welcome to Celline Mart</h2>
+        <p class="mt-4 text-lg text-gray-700">Shop premium electronics and accessories at unbeatable prices</p>
+        <a href="#products" class="mt-8 inline-block bg-blue-600 text-white px-8 py-3 rounded-lg shadow hover:bg-blue-700 transition">
+            🛍️ Shop Now
+        </a>
     </section>
 
-    <!-- Products -->
-    <main class="max-w-6xl mx-auto py-10 px-6">
-        <h3 class="text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">Featured Products</h3>
-        <div id="products" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"></div>
-    </main>
+    <!-- 🛒 Product Section -->
+    <section id="products" class="max-w-6xl mx-auto py-20 fade-in">
+        <h3 class="text-3xl font-bold text-center text-gray-800 mb-10">Our Products</h3>
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-4">
+            <!-- Dynamically loaded by main.js -->
+        </div>
+    </section>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t py-6 text-center text-gray-600 text-sm" id="contact">
-        © 2025 Celline Mart — All Rights Reserved
+    <!-- 📞 Contact Section -->
+    <section id="contact" class="bg-white py-20 fade-in">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold text-gray-800 mb-6">Contact Us</h3>
+            <p class="text-gray-600 mb-4">Have questions or need help? We’d love to hear from you!</p>
+            <p class="text-gray-700 font-medium">📧 support@cellinemart.com</p>
+            <p class="text-gray-700 font-medium">📞 +234 800 000 0000</p>
+        </div>
+    </section>
+
+    <!-- ⚡ Footer -->
+    <footer class="bg-gray-800 text-white py-6 text-center">
+        <p>© <span id="year"></span> Celline Mart. All rights reserved.</p>
     </footer>
+
+    <!-- 🚀 JS: Fade-in + Dynamic Products -->
+    <script>
+        // Fade-in animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const items = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            items.forEach(item => {
+                item.classList.add('opacity-0', 'translate-y-5', 'transition', 'duration-700');
+                observer.observe(item);
+            });
+
+            // Update footer year
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
 
     <script src="/js/main.js"></script>
 </body>
