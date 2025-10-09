@@ -1,12 +1,11 @@
 {
-  "name": "azure-ecommerce",
+  "name": "mini-jumia",
   "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "ejs": "^3.1.10",
-    "express": "^4.19.0",
-    "express-session": "^1.18.2"
+    "express": "^4.19.2"
   }
 }
