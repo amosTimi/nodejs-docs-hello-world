@@ -1,61 +1,90 @@
-﻿// ===== Products Array =====
+﻿// Sample products
 const products = [
-    { id: 1, name: "Wireless Earbuds", price: 15000, image: "images/earbuds.jpg" },
-    { id: 2, name: "Smart Watch", price: 25000, image: "images/watch.jpg" },
-    { id: 3, name: "Bluetooth Speaker", price: 18000, image: "images/speaker.jpg" },
-    { id: 4, name: "Phone Charger", price: 5000, image: "images/charger.jpg" },
-    { id: 5, name: "Gaming Mouse", price: 12000, image: "images/mouse.jpg" }
+    { id: 1, name: "Smartphone", price: 120000, img: "images/smartphone.jpg" },
+    { id: 2, name: "Laptop", price: 250000, img: "images/laptop.jpg" },
+    { id: 3, name: "Headphones", price: 35000, img: "images/headphones.jpg" },
+    { id: 4, name: "Smartwatch", price: 50000, img: "images/smartwatch.jpg" }
 ];
 
-// ===== Product Container =====
-const productContainer = document.getElementById("products");
+// --- CART MANAGEMENT ---
+const cartKey = "cellineCart";
 
-// ===== Render Products =====
-function renderProducts() {
-    if (!productContainer) return;
-
-    productContainer.innerHTML = products.map(product => `
-    <div class="bg-white rounded-lg shadow p-4 flex flex-col items-center">
-      <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-cover rounded-lg mb-2">
-      <h2 class="text-lg font-bold text-center">${product.name}</h2>
-      <p class="text-blue-600 font-semibold mt-1">₦${product.price.toLocaleString()}</p>
-      <button class="mt-3 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700" onclick="addToCart(${product.id})">
-        Add to Cart
-      </button>
-    </div>
-  `).join("");
-}
-
-// ===== Cart Functions =====
 function getCart() {
-    return JSON.parse(localStorage.getItem("cart")) || [];
+    return JSON.parse(localStorage.getItem(cartKey)) || [];
 }
 
 function saveCart(cart) {
-    localStorage.setItem("cart", JSON.stringify(cart));
-}
-
-function addToCart(productId) {
-    const cart = getCart();
-    const product = products.find(p => p.id === productId);
-    if (product) {
-        cart.push(product);
-        saveCart(cart);
-        updateCartCount();
-        alert(`${product.name} added to cart 🛒`);
-    }
-}
-
-// ===== Cart Count Display =====
-function updateCartCount() {
-    const cartCount = document.getElementById("cart-count");
-    if (cartCount) {
-        cartCount.textContent = getCart().length;
-    }
-}
-
-// ===== Initialize =====
-document.addEventListener("DOMContentLoaded", () => {
-    renderProducts();
+    localStorage.setItem(cartKey, JSON.stringify(cart));
     updateCartCount();
+}
+
+// --- CART COUNT UPDATE ---
+function updateCartCount() {
+    const count = getCart().length;
+    document.getElementById("cart-count").textContent = count;
+}
+
+// --- ADD TO CART ---
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+    const cart = getCart();
+    cart.push(product);
+    saveCart(cart);
+}
+
+// --- REMOVE FROM CART ---
+function removeFromCart(index) {
+    const cart = getCart();
+    cart.splice(index, 1);
+    saveCart(cart);
+    renderCart();
+}
+
+// --- RENDER PRODUCTS ---
+function renderProducts() {
+    const container = document.getElementById("products");
+    container.innerHTML = products.map(p => `
+        <div class="bg-white shadow rounded p-4 flex flex-col items-center">
+            <img src="${p.img}" alt="${p.name}" class="w-32 h-32 object-cover mb-2 rounded">
+            <h3 class="font-semibold">${p.name}</h3>
+            <p class="text-gray-700 mt-1">₦${p.price.toLocaleString()}</p>
+            <button class="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700" onclick="addToCart(${p.id})">Add to Cart</button>
+        </div>
+    `).join("");
+}
+
+// --- RENDER CART PANEL ---
+function renderCart() {
+    const cart = getCart();
+    const cartItems = document.getElementById("cart-items");
+    cartItems.innerHTML = cart.length
+        ? cart.map((p, i) => `
+            <li class="flex justify-between items-center border-b py-1">
+                <span>${p.name} - ₦${p.price.toLocaleString()}</span>
+                <button class="text-red-500 font-bold" onclick="removeFromCart(${i})">&times;</button>
+            </li>
+        `).join("")
+        : "<li>Your cart is empty 🛒</li>";
+
+    const total = cart.reduce((sum, p) => sum + p.price, 0);
+    document.getElementById("cart-total").textContent = `₦${total.toLocaleString()}`;
+}
+
+// --- CART BUTTON LOGIC ---
+const cartButton = document.getElementById("cart-button");
+const cartPanel = document.getElementById("cart-panel");
+const closeCart = document.getElementById("close-cart");
+
+cartButton.addEventListener("click", () => {
+    renderCart();
+    cartPanel.classList.toggle("hidden");
 });
+
+closeCart.addEventListener("click", () => {
+    cartPanel.classList.add("hidden");
+});
+
+// --- INITIALIZE ---
+renderProducts();
+updateCartCount();
