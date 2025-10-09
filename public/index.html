@@ -5,72 +5,42 @@
     <meta name="description" content="Shop premium electronics and accessories at Celline Mart" />
     <meta property="og:title" content="Celline Mart" />
     <meta property="og:description" content="Shop premium electronics and accessories at Celline Mart" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🛒 Celline Mart</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-50 text-gray-900 font-sans">
+<body class="bg-gray-50 text-gray-900">
+
     <!-- 🧭 Navbar -->
-    <nav class="bg-white shadow-md py-4 px-8 flex justify-between items-center sticky top-0 z-50">
-        <h1 class="text-2xl font-bold text-blue-600">🛍️ Celline Mart</h1>
-        <div class="space-x-6">
-            <a href="#products" class="hover:text-blue-600 font-medium">Products</a>
-            <a href="#about" class="hover:text-blue-600 font-medium">About</a>
-            <a href="#contact" class="hover:text-blue-600 font-medium">Contact</a>
-            <button id="cart-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Cart 🛒</button>
+    <nav class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-bold">🛍️ Celline Mart</a>
+        <div class="space-x-4">
+            <a href="index.html" class="hover:text-yellow-300">Home</a>
+            <a href="cart.html" class="hover:text-yellow-300">Cart 🛒</a>
+            <a href="checkout.html" class="hover:text-yellow-300">Checkout 💳</a>
         </div>
     </nav>
 
-    <!-- 🏠 Hero -->
-    <section class="bg-blue-50 py-20 text-center">
-        <h2 class="text-4xl font-extrabold text-blue-700 mb-4">Welcome to Celline Mart</h2>
-        <p class="text-lg text-gray-700">Your one-stop shop for premium gadgets and accessories 💎</p>
+    <!-- 🏠 Hero Section -->
+    <section class="text-center py-12 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+        <h1 class="text-5xl font-bold mb-4">Welcome to Celline Mart</h1>
+        <p class="text-lg">Your one-stop store for premium electronics and accessories ⚡</p>
     </section>
 
-    <!-- 🛒 Products -->
-    <section class="py-12 bg-gray-50" id="products">
-        <div class="text-center mb-10">
-            <h2 class="text-3xl font-bold text-gray-800">🛒 Our Products</h2>
-            <p class="text-gray-500 mt-2">Browse our best sellers and latest arrivals</p>
-        </div>
-        <div id="products-grid" class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-6">
-            <!-- JS injects product cards here -->
-        </div>
+    <!-- 🛍️ Products Section -->
+    <section class="max-w-6xl mx-auto p-6">
+        <h2 class="text-3xl font-semibold mb-6 text-center">Our Products</h2>
+        <div id="products" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
     </section>
 
-    <!-- ℹ️ About -->
-    <section id="about" class="py-16 bg-white text-center">
-        <h2 class="text-3xl font-bold text-gray-800 mb-4">About Celline Mart</h2>
-        <p class="max-w-2xl mx-auto text-gray-600">
-            At Celline Mart, we bring you the best electronics and fashion accessories at unbeatable prices.
-            Shop confidently knowing quality meets style! 💫
-        </p>
-    </section>
+    <!-- 🦶 Footer -->
+    <footer class="bg-blue-600 text-white text-center p-4 mt-12">
+        <p>&copy; 2025 Celline Mart. Built with ❤️ by Amos.</p>
+        <a href="#contact" class="block mt-2 hover:text-yellow-300">Contact Us</a>
+    </footer>
 
-    <!-- 📞 Contact -->
-    <section id="contact" class="py-16 bg-blue-50 text-center">
-        <h2 class="text-3xl font-bold text-blue-700 mb-4">Contact Us</h2>
-        <p class="text-gray-700">Have a question or need support? We’re happy to help!</p>
-        <p class="mt-4 font-medium">📧 support@cellinemart.com</p>
-        <p>📱 +234 800 123 4567</p>
-    </section>
-
-    <!-- 🛍️ Cart Modal -->
-    <div id="cart-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-lg w-96 max-h-[80vh] overflow-y-auto p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold">🛍️ Your Cart</h3>
-                <button id="close-cart" class="text-gray-500 hover:text-gray-700">✖</button>
-            </div>
-            <div id="cart-items" class="space-y-4"></div>
-            <div class="border-t mt-4 pt-4 flex justify-between text-lg font-semibold">
-                <span>Total:</span>
-                <span id="cart-total">₦0</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- 📜 JS -->
-    <script src="/js/main.js"></script>
+    <!-- ⚙️ Scripts -->
+    <script src="js/main.js"></script>
 </body>
 </html>
