@@ -1,4 +1,4 @@
-﻿// 🛍️ Celline Mart Product + Cart Script
+﻿// 🛍️ Celline Mart Product + Cart Script (with localStorage + Cart Badge)
 document.addEventListener("DOMContentLoaded", () => {
     const products = [
         { name: "Wireless Headphones", price: 25000, image: "/images/headphones.jpg", desc: "Noise-cancelling Bluetooth headphones with rich bass." },
@@ -14,9 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const cartItemsContainer = document.getElementById("cart-items");
     const cartTotal = document.getElementById("cart-total");
     const cartButton = document.getElementById("view-cart");
+    const cartCountBadge = document.getElementById("cart-count"); // 🧮 Cart badge
     const closeModal = document.getElementById("close-cart");
 
-    let cart = [];
+    // 🧠 Load saved cart from localStorage
+    let cart = JSON.parse(localStorage.getItem("cellineCart")) || [];
 
     // 🧩 Render products
     products.forEach((p, i) => {
@@ -46,40 +48,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const existing = cart.find((item) => item.name === product.name);
             if (existing) existing.qty++;
             else cart.push({ ...product, qty: 1 });
+            saveCart();
             updateCart();
         })
     );
 
-    // 💰 Update cart modal
-    function updateCart() {
-        cartItemsContainer.innerHTML = "";
-        let total = 0;
-        cart.forEach((item, idx) => {
-            total += item.price * item.qty;
-            const div = document.createElement("div");
-            div.className = "flex justify-between items-center border-b py-2";
-            div.innerHTML = `
-        <div>
-          <h5 class="font-semibold">${item.name}</h5>
-          <p class="text-sm text-gray-500">₦${item.price.toLocaleString()} × ${item.qty}</p>
-        </div>
-        <button class="remove text-red-500" data-index="${idx}">✖</button>
-      `;
-            cartItemsContainer.appendChild(div);
-        });
-        cartTotal.textContent = `₦${total.toLocaleString()}`;
-
-        // remove item
-        document.querySelectorAll(".remove").forEach((btn) =>
-            btn.addEventListener("click", (e) => {
-                const idx = e.target.dataset.index;
-                cart.splice(idx, 1);
-                updateCart();
-            })
-        );
+    // 💾 Save to localStorage
+    function saveCart() {
+        localStorage.setItem("cellineCart", JSON.stringify(cart));
     }
 
-    // 🪄 Modal toggles
-    cartButton.addEventListener("click", () => (cartModal.classList.remove("hidden")));
-    closeModal.addEventListener("click", () => (cartModal.classList.add("hidden")));
-});
+    // 💰 Update cart modal + badge
+    function updateCart
