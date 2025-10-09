@@ -5,42 +5,39 @@
     <meta name="description" content="Shop premium electronics and accessories at Celline Mart" />
     <meta property="og:title" content="Celline Mart" />
     <meta property="og:description" content="Shop premium electronics and accessories at Celline Mart" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🛒 Celline Mart</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="bg-gray-100 text-gray-900">
 
-<body class="bg-gray-50 text-gray-900">
-
-    <!-- 🧭 Navbar -->
-    <nav class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
-        <a href="index.html" class="text-2xl font-bold">🛍️ Celline Mart</a>
-        <div class="space-x-4">
-            <a href="index.html" class="hover:text-yellow-300">Home</a>
-            <a href="cart.html" class="hover:text-yellow-300">Cart 🛒</a>
-            <a href="checkout.html" class="hover:text-yellow-300">Checkout 💳</a>
+    <!-- ===== Header ===== -->
+    <header class="bg-white shadow p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-blue-600">🛍️ Celline Mart</h1>
+        <div>
+            <button class="relative bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Cart 🛒
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 rounded-full">0</span>
+            </button>
         </div>
-    </nav>
+    </header>
 
-    <!-- 🏠 Hero Section -->
-    <section class="text-center py-12 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
-        <h1 class="text-5xl font-bold mb-4">Welcome to Celline Mart</h1>
-        <p class="text-lg">Your one-stop store for premium electronics and accessories ⚡</p>
+    <!-- ===== Welcome Section ===== -->
+    <section class="text-center py-10">
+        <h2 class="text-3xl font-semibold">Welcome to Celline Mart!</h2>
+        <p class="mt-2 text-lg text-gray-700">Browse our premium electronics and accessories 🚀</p>
     </section>
 
-    <!-- 🛍️ Products Section -->
-    <section class="max-w-6xl mx-auto p-6">
-        <h2 class="text-3xl font-semibold mb-6 text-center">Our Products</h2>
-        <div id="products" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+    <!-- ===== Products Grid ===== -->
+    <section id="products" class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+        <!-- Products will be dynamically rendered here by main.js -->
     </section>
 
-    <!-- 🦶 Footer -->
-    <footer class="bg-blue-600 text-white text-center p-4 mt-12">
-        <p>&copy; 2025 Celline Mart. Built with ❤️ by Amos.</p>
-        <a href="#contact" class="block mt-2 hover:text-yellow-300">Contact Us</a>
+    <!-- ===== Footer ===== -->
+    <footer class="bg-white shadow mt-10 p-4 text-center text-gray-600">
+        &copy; 2025 Celline Mart. All rights reserved.
     </footer>
 
-    <!-- ⚙️ Scripts -->
+    <!-- ===== Scripts ===== -->
     <script src="js/main.js"></script>
 </body>
 </html>

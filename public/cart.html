@@ -2,95 +2,108 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Your shopping cart - Celline Mart" />
+    <meta name="description" content="Your Cart - Celline Mart" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🛒 Your Cart | Celline Mart</title>
+    <title>🛒 Cart | Celline Mart</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
 
     <!-- 🧭 Navbar -->
     <nav class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
         <a href="index.html" class="text-2xl font-bold">🛍️ Celline Mart</a>
         <div class="space-x-4">
             <a href="index.html" class="hover:text-yellow-300">Home</a>
-            <a href="cart.html" class="hover:text-yellow-300">Cart 🛒</a>
             <a href="checkout.html" class="hover:text-yellow-300">Checkout 💳</a>
         </div>
     </nav>
 
-    <!-- 🛍️ Cart Section -->
-    <section class="max-w-5xl mx-auto py-10">
-        <h1 class="text-4xl font-semibold text-center mb-6">Your Shopping Cart 🛒</h1>
+    <!-- 🛒 Cart Section -->
+    <main class="flex-grow p-6">
+        <h1 class="text-3xl font-semibold mb-6 text-blue-600 text-center">🛒 Your Cart</h1>
+        <div id="cartItems" class="max-w-3xl mx-auto space-y-4"></div>
 
-        <div id="cartItems" class="space-y-4"></div>
-
-        <div class="mt-8 text-center">
-            <h2 class="text-2xl font-bold mb-2">Total: ₦<span id="cartTotal">0</span></h2>
-            <a href="checkout.html" class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700">
-                Proceed to Checkout 💳
-            </a>
+        <!-- 💰 Total + Actions -->
+        <div class="max-w-3xl mx-auto mt-8 p-4 border-t text-right">
+            <p class="text-lg font-semibold mb-4">Total: ₦<span id="cartTotal">0</span></p>
+            <div class="flex justify-end gap-4">
+                <button id="clearCart" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                    🗑️ Clear Cart
+                </button>
+                <a href="checkout.html"
+                   class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
+                    Proceed to Checkout 💳
+                </a>
+            </div>
         </div>
-    </section>
+    </main>
 
     <!-- 🦶 Footer -->
-    <footer class="bg-blue-600 text-white text-center p-4 mt-12">
+    <footer class="bg-blue-600 text-white text-center p-4">
         <p>&copy; 2025 Celline Mart. Built with ❤️ by Amos.</p>
     </footer>
 
     <!-- ⚙️ Script -->
     <script>
-    const cartItemsDiv = document.getElementById("cartItems");
-    const cartTotalEl = document.getElementById("cartTotal");
+        const cartContainer = document.getElementById("cartItems");
+        const totalEl = document.getElementById("cartTotal");
+        const clearCartBtn = document.getElementById("clearCart");
 
-    // 🧠 Load cart from localStorage
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let total = 0;
 
-    const renderCart = () => {
-      cartItemsDiv.innerHTML = "";
+        // 🧾 Display Cart Items
+        const renderCart = () => {
+            cartContainer.innerHTML = "";
+            total = 0;
 
-      if (cart.length === 0) {
-        cartItemsDiv.innerHTML = "<p class='text-center text-gray-600'>Your cart is empty 🛍️</p>";
-        cartTotalEl.textContent = "0";
-        return;
-      }
+            if (cart.length === 0) {
+                cartContainer.innerHTML = "<p class='text-center text-gray-500'>Your cart is empty 🛒</p>";
+                totalEl.textContent = "0";
+                return;
+            }
 
-      let total = 0;
-      cart.forEach((item, index) => {
-        total += item.price;
+            cart.forEach((item, index) => {
+                const div = document.createElement("div");
+                div.className = "flex justify-between items-center bg-white p-4 rounded-lg shadow-sm";
+                div.innerHTML = `
+              <div>
+                <h3 class="font-semibold">${item.name}</h3>
+                <p class="text-gray-600">₦${item.price}</p>
+              </div>
+              <button class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition" data-index="${index}">
+                Remove
+              </button>
+            `;
+                cartContainer.appendChild(div);
+                total += item.price;
+            });
 
-        const itemDiv = document.createElement("div");
-        itemDiv.className = "flex items-center justify-between bg-white shadow p-4 rounded-lg";
-        itemDiv.innerHTML = `
-          <div class="flex items-center space-x-4">
-            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
-            <div>
-              <h3 class="font-semibold">${item.name}</h3>
-              <p class="text-gray-600">₦${item.price}</p>
-            </div>
-          </div>
-          <button data-index="${index}" class="removeBtn text-red-500 hover:text-red-700 font-semibold">
-            Remove ✖️
-          </button>
-        `;
-        cartItemsDiv.appendChild(itemDiv);
-      });
+            totalEl.textContent = total.toLocaleString();
+        };
 
-      cartTotalEl.textContent = total.toLocaleString();
-
-      document.querySelectorAll(".removeBtn").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-          const index = e.target.dataset.index;
-          cart.splice(index, 1);
-          localStorage.setItem("cart", JSON.stringify(cart));
-          renderCart();
+        // 🗑️ Remove single item
+        cartContainer.addEventListener("click", (e) => {
+            if (e.target.matches("button[data-index]")) {
+                const i = e.target.getAttribute("data-index");
+                cart.splice(i, 1);
+                localStorage.setItem("cart", JSON.stringify(cart));
+                renderCart();
+            }
         });
-      });
-    };
 
-    renderCart();
+        // 🧹 Clear all
+        clearCartBtn.addEventListener("click", () => {
+            if (confirm("Are you sure you want to clear your cart?")) {
+                cart = [];
+                localStorage.removeItem("cart");
+                renderCart();
+            }
+        });
+
+        // 🔄 Load cart
+        renderCart();
     </script>
-
 </body>
 </html>

@@ -1,78 +1,61 @@
-﻿const products = [
-    { id: 1, name: "iPhone 15 Pro", price: 1200000, image: "/images/iphone.jpg" },
-    { id: 2, name: "Samsung Galaxy S24", price: 950000, image: "/images/samsung.jpg" },
-    { id: 3, name: "Sony Headphones", price: 120000, image: "/images/sony.jpg" },
-    { id: 4, name: "Apple Watch", price: 350000, image: "/images/watch.jpg" },
+﻿// ===== Products Array =====
+const products = [
+    { id: 1, name: "Wireless Earbuds", price: 15000, image: "images/earbuds.jpg" },
+    { id: 2, name: "Smart Watch", price: 25000, image: "images/watch.jpg" },
+    { id: 3, name: "Bluetooth Speaker", price: 18000, image: "images/speaker.jpg" },
+    { id: 4, name: "Phone Charger", price: 5000, image: "images/charger.jpg" },
+    { id: 5, name: "Gaming Mouse", price: 12000, image: "images/mouse.jpg" }
 ];
 
-const grid = document.getElementById("products-grid");
-const cartModal = document.getElementById("cart-modal");
-const cartBtn = document.getElementById("cart-btn");
-const closeCart = document.getElementById("close-cart");
-const cartItems = document.getElementById("cart-items");
-const cartTotal = document.getElementById("cart-total");
+// ===== Product Container =====
+const productContainer = document.getElementById("products");
 
-// 🛍️ Render products
+// ===== Render Products =====
 function renderProducts() {
-    grid.innerHTML = "";
-    products.forEach((p) => {
-        const card = document.createElement("div");
-        card.className = "bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition";
-        card.innerHTML = `
-      <img src="${p.image}" alt="${p.name}" class="w-full h-48 object-cover">
-      <div class="p-4 text-center">
-        <h3 class="text-lg font-semibold mb-2">${p.name}</h3>
-        <p class="text-blue-600 font-bold mb-3">₦${p.price.toLocaleString()}</p>
-        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" onclick="addToCart(${p.id})">
-          Add to Cart
-        </button>
-      </div>
-    `;
-        grid.appendChild(card);
-    });
+    if (!productContainer) return;
+
+    productContainer.innerHTML = products.map(product => `
+    <div class="bg-white rounded-lg shadow p-4 flex flex-col items-center">
+      <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-cover rounded-lg mb-2">
+      <h2 class="text-lg font-bold text-center">${product.name}</h2>
+      <p class="text-blue-600 font-semibold mt-1">₦${product.price.toLocaleString()}</p>
+      <button class="mt-3 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700" onclick="addToCart(${product.id})">
+        Add to Cart
+      </button>
+    </div>
+  `).join("");
 }
 
-// 🛒 Cart logic
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+// ===== Cart Functions =====
+function getCart() {
+    return JSON.parse(localStorage.getItem("cart")) || [];
+}
 
-function addToCart(id) {
-    const item = products.find((p) => p.id === id);
-    const existing = cart.find((p) => p.id === id);
-    if (existing) existing.qty += 1;
-    else cart.push({ ...item, qty: 1 });
+function saveCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartUI();
 }
 
-function removeFromCart(id) {
-    cart = cart.filter((p) => p.id !== id);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartUI();
-}
-
-function updateCartUI() {
-    cartItems.innerHTML = "";
-    if (cart.length === 0) {
-        cartItems.innerHTML = `<p class="text-gray-500 text-center">Your cart is empty 🛍️</p>`;
-    } else {
-        cart.forEach((p) => {
-            const item = document.createElement("div");
-            item.className = "flex justify-between items-center border-b pb-2";
-            item.innerHTML = `
-        <span>${p.name} (x${p.qty})</span>
-        <button class="text-red-500 hover:underline" onclick="removeFromCart(${p.id})">Remove</button>
-      `;
-            cartItems.appendChild(item);
-        });
+function addToCart(productId) {
+    const cart = getCart();
+    const product = products.find(p => p.id === productId);
+    if (product) {
+        cart.push(product);
+        saveCart(cart);
+        updateCartCount();
+        alert(`${product.name} added to cart 🛒`);
     }
-    const total = cart.reduce((sum, p) => sum + p.price * p.qty, 0);
-    cartTotal.textContent = `₦${total.toLocaleString()}`;
 }
 
-// 🎯 Modal controls
-cartBtn.onclick = () => { cartModal.classList.remove("hidden"); updateCartUI(); };
-closeCart.onclick = () => cartModal.classList.add("hidden");
+// ===== Cart Count Display =====
+function updateCartCount() {
+    const cartCount = document.getElementById("cart-count");
+    if (cartCount) {
+        cartCount.textContent = getCart().length;
+    }
+}
 
-// 🚀 Init
-renderProducts();
-updateCartUI();
+// ===== Initialize =====
+document.addEventListener("DOMContentLoaded", () => {
+    renderProducts();
+    updateCartCount();
+});
